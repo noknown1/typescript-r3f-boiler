@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Canvas } from "@react-three/fiber";
+import { Vector3, Euler } from 'three';
+import { OrbitControls } from '@react-three/drei';
 import styled from "styled-components";
 
+import Hud from "./ThreeComponents/Hud";
 import BoxMesh from "./ThreeComponents/BoxMesh";
 import { IBox } from "../types/ThreeTypes";
-import { Vector3 } from 'three';
-import { FirstPersonControls, OrbitControls } from '@react-three/drei';
 
 const ThreeCanvas = () => {
 
@@ -19,9 +20,13 @@ const ThreeCanvas = () => {
 
   const [activeBox, setActiveBox] = useState<IBox | null>(null);
 
+  const hudPosition = new Vector3(0, 0, 0);
+  const hudRotation = new Euler(0, 0, 0);
+
   return (
-    <ThreeCanvasMain camera={{ fov: 50, zoom: 10, position: [0, 0, 100] }}>
+    <ThreeCanvasMain camera={{ fov: 80, zoom: 10, position: [0, 0, 120] }}>
       <OrbitControls />
+      <Hud activeBox={activeBox} hudPosition={hudPosition} hudRotation={hudRotation} />
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       {boxes.map((box, i) => {
